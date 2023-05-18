@@ -56,23 +56,14 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-task('release') {
-	dependsOn('build')
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId = 'com.github.lepelaka'
+			artifactId = 'backend'
+			version = '0.0.1'
 
-	doLast {
-		def stdout = new ByteArrayOutputStream()
-		exec {
-			commandLine 'eb', 'setenv', 'SPRING_PROFILES_ACTIVE=prod'
-			standardOutput = stdout
+			from components.java
 		}
-		println "eb setenv SPRING_PROFILES_ACTIVE=prod : \n$stdout"
-		
-		exec {
-			commandLine 'eb', 'deploy'
-			standardOutput = stdout
-		}
-		println "eb setenv :\n$stdout"
-		
-		println 'Release succeeded'
 	}
 }
