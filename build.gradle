@@ -1,0 +1,78 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.lepelaka'
+version = '0.0.2-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+jar {
+	enabled = false
+}
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	// runtimeOnly 'com.h2database:h2'
+	// runtimeOnly 'mysql:mysql-connector-java:3.1.4'
+	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/org.mybatis/mybatis
+	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.6'
+	// https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api
+	compileOnly group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
+
+	// // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+	// runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	// // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+	// implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task('release') {
+	dependsOn('build')
+
+	doLast {
+		def stdout = new ByteArrayOutputStream()
+		exec {
+			commandLine 'eb', 'setenv', 'SPRING_PROFILES_ACTIVE=prod'
+			standardOutput = stdout
+		}
+		println "eb setenv SPRING_PROFILES_ACTIVE=prod : \n$stdout"
+		
+		exec {
+			commandLine 'eb', 'deploy'
+			standardOutput = stdout
+		}
+		println "eb setenv :\n$stdout"
+		
+		println 'Release succeeded'
+	}
+}
