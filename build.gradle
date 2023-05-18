@@ -4,6 +4,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'maven-publish'
 }
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
 
 group = 'com.lepelaka'
 version = '0.0.2-SNAPSHOT'
@@ -49,7 +54,7 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-
+  implementation 'com.github.lepelaka:backend:0.0.1'
 
 }
 
