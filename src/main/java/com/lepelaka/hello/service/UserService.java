@@ -1,6 +1,7 @@
 package com.lepelaka.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lepelaka.hello.model.UserEntity;
@@ -33,7 +34,13 @@ public class UserService {
     return entity;
   }
 
-  public UserEntity getByCredential(final String username, final String password) {
-    return userRepository.findByUsernameAndPassword(username, password);
+  public UserEntity getByCredential(final String username, final String password, final PasswordEncoder encoder) {
+    final UserEntity originalUser = userRepository.findByUsername(username);
+
+    if(originalUser != null && encoder.matches(password, originalUser.getPassword())) {
+      return originalUser;
+    }
+    return null;
+    // return userRepository.findByUsernameAndPassword(username, password);
   }
 }

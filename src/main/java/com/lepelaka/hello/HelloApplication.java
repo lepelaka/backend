@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import lombok.Data;
 
 @SpringBootApplication
-@Data
 public class HelloApplication {
 
 	public static void main(String[] args) {
