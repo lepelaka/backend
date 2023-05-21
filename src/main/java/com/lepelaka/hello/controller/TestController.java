@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lepelaka.hello.dto.ResponseDTO;
 import com.lepelaka.hello.dto.TestRequestBodyDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("test")
+@Slf4j
 public class TestController {
   // @GetMapping
   public String testController() {
@@ -29,6 +32,7 @@ public class TestController {
 
   @GetMapping(value = { "{id}", "/" }) // localhost:8080/test
   public String testControllerWithPathVariables(@PathVariable int id) {
+    log.info("test");
     return "Hello World id : " + id;
   }
 

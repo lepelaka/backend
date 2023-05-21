@@ -1,0 +1,26 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: SAMPLE
+    url: jdbc:mariadb://np.lepelaka.co.kr:3306/springboot_db
+    password: '1234'
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: f96e025e8e0794f42b92
+            client-secret: 7b6c28340c5951e7c83b45bd1a564438e1461392
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+            - user:email
+            - read:user
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user

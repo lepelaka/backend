@@ -2,3 +2,5 @@ spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
 spring.datasource.url=jdbc:mariadb://np.lepelaka.co.kr:3306/springboot_db
 spring.datasource.username=SAMPLE
 spring.datasource.password=1234
+# 서버 포트
+# server.port=9999 /
